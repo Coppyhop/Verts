@@ -1,0 +1,4 @@
+name=starSmall
+group=stars
+speedScale=0.25
+sprite=starSmall
