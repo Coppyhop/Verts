@@ -11,7 +11,7 @@ public class BackgroundRenderHandler {
     public void draw(SpriteBatch batch){
         batch.begin();
         for(int i=0;i<sprites.size();i++){
-            if(sprites.get(i).sprite.getY() <= 0){
+            if(sprites.get(i).sprite.getY() <= -64){
                 sprites.remove(i);
             } else {
                 sprites.get(i).update(Gdx.graphics.getDeltaTime());

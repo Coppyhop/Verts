@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Verts";
 		config.width = 640;
-		config.height = 480;
+		config.height = 360;
 		new LwjglApplication(new Main(), config);
 	}
 }

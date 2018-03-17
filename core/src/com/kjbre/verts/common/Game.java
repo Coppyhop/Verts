@@ -3,6 +3,7 @@ package com.kjbre.verts.common;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kjbre.verts.background.BackgroundRenderHandler;
 import com.kjbre.verts.background.BackgroundSprite;
+import com.kjbre.verts.player.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Game {
     SpriteBatch backgroundSprites;
     SpriteBatch projectileSprites;
     SpriteBatch entitySprites;
-
+    Player player;
     BackgroundRenderHandler backgroundRenderHandler;
 
 
@@ -28,12 +29,22 @@ public class Game {
         entitySprites = new SpriteBatch();
         backgroundRenderHandler = new BackgroundRenderHandler();
         loadStars();
+        player = new Player();
+        try {
+            player.setCurrentChassis(ContentLoader.loadPlayerChassisSprite("base"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
     public void draw(){
         generateStarfield();
         backgroundRenderHandler.draw(backgroundSprites);
+
+        entitySprites.begin();
+        player.draw(entitySprites);
+        entitySprites.end();
     }
 
     public void dispose(){
