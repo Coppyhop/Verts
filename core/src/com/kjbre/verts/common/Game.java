@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kjbre.verts.background.BackgroundRenderHandler;
 import com.kjbre.verts.background.BackgroundSprite;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,13 +27,7 @@ public class Game {
         projectileSprites = new SpriteBatch();
         entitySprites = new SpriteBatch();
         backgroundRenderHandler = new BackgroundRenderHandler();
-        try {
-            validStars.add(ContentLoader.loadBackgroundSprite("starLarge"));
-            validStars.add(ContentLoader.loadBackgroundSprite("starMedium"));
-            validStars.add(ContentLoader.loadBackgroundSprite("starSmall"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadStars();
 
 
     }
@@ -53,6 +48,20 @@ public class Game {
             backgroundRenderHandler.processSprite(validStars.get(new Random().nextInt(validStars.size())).clone());
         } else {
             lastStar++;
+        }
+    }
+
+    public void loadStars(){
+        File folder = new File("gamedefs/sprites/background/");
+        File[] listOfFiles = folder.listFiles();
+        try {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile()) {
+                    validStars.add(ContentLoader.loadBackgroundSprite(listOfFiles[i].getName().substring(0, listOfFiles[i].getName().lastIndexOf('.'))));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
