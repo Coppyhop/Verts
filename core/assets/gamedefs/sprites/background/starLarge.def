@@ -1,4 +1,2 @@
-name=starLarge
-group=stars
-speedScale=0.25
+speedScale=1f
 sprite=starLarge

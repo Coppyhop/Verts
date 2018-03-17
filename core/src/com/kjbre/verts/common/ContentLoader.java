@@ -14,7 +14,8 @@ public class ContentLoader {
     private static BackgroundSprite generateBackgroundSprite(DefinitionFile file){
 
         Texture texture = new Texture(Gdx.files.internal(file.location + file.properties.getProperty("sprite") + ".png"));
-        return new BackgroundSprite(texture);
+        float movementScale = Float.valueOf(file.getProperties().getProperty("speedScale"));
+        return new BackgroundSprite(texture, movementScale);
     }
 
     public static BackgroundSprite loadBackgroundSprite(String name) throws IOException {
