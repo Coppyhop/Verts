@@ -60,6 +60,7 @@ public class Game {
                     //One-time things to be setup before gameplay
                     System.out.println("[INFO] Entering game State");
                     player.setCurrentChassis(library.getRandomChassisSprite());
+                    library.playRandomSong();
                     once = true;
                 }
 

@@ -1,6 +1,9 @@
 package com.kjbre.verts.common;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
+import com.badlogic.gdx.audio.Music;
 import com.kjbre.verts.background.BackgroundSprite;
 import com.kjbre.verts.player.ChassisSprite;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +25,7 @@ class ContentLibrary {
 
     private final ArrayList<BackgroundSprite> validBackgroundSprites = new ArrayList<BackgroundSprite>();
     private final ArrayList<ChassisSprite> validChassisSprites = new ArrayList<ChassisSprite>();
+    private final ArrayList<Music> validMusicTracks = new ArrayList<Music>();
     public boolean loaded = false;
 
     ContentLibrary(){
@@ -35,6 +39,8 @@ class ContentLibrary {
         System.out.println("[INFO] Beginning initial asset collection.");
         System.out.println("[INFO] Now on: Sprites.");
         loadTextureFolder("sprites");
+        System.out.println("[INFO] Now on: Music.");
+        loadMusicFolder("music");
         System.out.println("[INFO] Finished asset collection.");
 
 
@@ -66,6 +72,20 @@ class ContentLibrary {
 
     }
 
+    private void loadMusic() throws IOException {
+        File folder = new File("music/");
+        File[] listOfFiles = folder.listFiles();
+
+        System.out.println("[INFO] Loading Music from '" + folder.getPath() + "'");
+
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile()) {
+                    System.out.println("[INFO] Loading Defintion file '" + listOfFile.getName() + "' for type 'MUSIC'");
+                    validMusicTracks.add(assetManager.get("music/" + listOfFile.getName(), Music.class));
+                }
+            }
+
+    }
     //Get the asset manager's progress on loading
     public boolean getLoaded(){
         return assetManager.update();
@@ -77,6 +97,7 @@ class ContentLibrary {
         try {
             loadDefsFromFolder("background", DefinitionType.BACKGROUND);
             loadDefsFromFolder("chassis", DefinitionType.CHASSIS);
+            loadMusic();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,6 +131,29 @@ class ContentLibrary {
         }
     }
 
+    private void loadMusicFolder(String folderName){
+        File folder = new File(folderName);
+
+
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+
+        if(listOfFiles.length == 0){
+            System.out.println("[INFO] Resource folder '" + folder.getPath() + "' is empty. ");
+        } else {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile()) {
+                    System.out.println("[INFO] Loading track '" + listOfFile.getName() + "' from '" + listOfFile.getPath() + "'");
+                    assetManager.load(listOfFile.getPath(), Music.class);
+                } else {
+                    System.out.println("[INFO] Found a resource folder at: " + listOfFile.getPath());
+                    loadTextureFolder(listOfFile.getPath());
+                }
+            }
+        }
+    }
+
     //These two methods are basic methods to get content out of the library
     //TODO: Random rarity-based, and name searches
     public BackgroundSprite getRandomBackgroundSprite(){
@@ -118,5 +162,10 @@ class ContentLibrary {
 
     public ChassisSprite getRandomChassisSprite(){
         return validChassisSprites.get(random.nextInt(validChassisSprites.size())).getClone();
+    }
+
+    public void playRandomSong(){
+        Music test = validMusicTracks.get(random.nextInt(validMusicTracks.size()));
+        test.play();
     }
 }
