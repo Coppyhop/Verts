@@ -1,14 +1,12 @@
 package com.kjbre.verts.common;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kjbre.verts.background.BackgroundRenderHandler;
 import com.kjbre.verts.background.BackgroundSprite;
 import com.kjbre.verts.player.Player;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
 
@@ -20,31 +18,55 @@ public class Game {
 
 
     BackgroundSprite test;
+    Texture loadingScreen;
+    Sprite loadingSprite;
 
     private int lastStar = 0, starInterval = 10;
-    private ArrayList<BackgroundSprite> validStars = new ArrayList<BackgroundSprite>();
+    private ContentLibrary library = new ContentLibrary();
+    boolean once = false;
+
     public Game(){
+        System.out.println("[INFO] Verts Engine Starting.");
         backgroundSprites = new SpriteBatch();
         projectileSprites = new SpriteBatch();
         entitySprites = new SpriteBatch();
         backgroundRenderHandler = new BackgroundRenderHandler();
-        loadStars();
+
+        System.out.println("[INFO] Setting up Asset Collection Environment.");
+        loadingScreen = new Texture(Gdx.files.internal("loading.png"));
+        loadingSprite = new Sprite(loadingScreen);
+        loadingSprite.setPosition(0,0);
+
+        library.initialize();
+
         player = new Player();
-        try {
-            player.setCurrentChassis(ContentLoader.loadPlayerChassisSprite("base"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
     public void draw(){
-        generateStarfield();
-        backgroundRenderHandler.draw(backgroundSprites);
+        if(library.getLoaded()) {
 
-        entitySprites.begin();
-        player.draw(entitySprites);
-        entitySprites.end();
+            if (library.loaded) {
+                if(!once){
+                    System.out.println("[INFO] Entering game State");
+                    player.setCurrentChassis(library.getRandomChassisSprite());
+                    once = true;
+                }
+                generateStarfield();
+                backgroundRenderHandler.draw(backgroundSprites);
+
+                entitySprites.begin();
+                player.draw(entitySprites);
+                entitySprites.end();
+            } else {
+                library.finalizedLoading();
+            }
+        } else {
+            backgroundSprites.begin();
+            loadingSprite.draw(backgroundSprites);
+            backgroundSprites.end();
+        }
     }
 
     public void dispose(){
@@ -56,23 +78,11 @@ public class Game {
     public void generateStarfield(){
         if(lastStar >= starInterval){
             lastStar = 0;
-            backgroundRenderHandler.processSprite(validStars.get(new Random().nextInt(validStars.size())).clone());
+            backgroundRenderHandler.processSprite(library.getRandomBackgroundSprite());
         } else {
             lastStar++;
         }
     }
 
-    public void loadStars(){
-        File folder = new File("gamedefs/sprites/background/");
-        File[] listOfFiles = folder.listFiles();
-        try {
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile()) {
-                    validStars.add(ContentLoader.loadBackgroundSprite(listOfFiles[i].getName().substring(0, listOfFiles[i].getName().lastIndexOf('.'))));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

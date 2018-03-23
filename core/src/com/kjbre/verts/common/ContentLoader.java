@@ -1,25 +1,30 @@
 package com.kjbre.verts.common;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.kjbre.verts.background.BackgroundSprite;
 import com.kjbre.verts.player.ChassisSprite;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ContentLoader {
 
-    private static BackgroundSprite generateBackgroundSprite(DefinitionFile file){
+    AssetManager manager;
 
-        Texture texture = new Texture(Gdx.files.internal(file.location + file.properties.getProperty("sprite") + ".png"));
+    public ContentLoader(AssetManager assetManager){
+        manager = assetManager;
+    }
+
+    private BackgroundSprite generateBackgroundSprite(DefinitionFile file){
+
+        Texture texture = manager.get(file.location + file.properties.getProperty("sprite") + ".png");
         float movementScale = Float.valueOf(file.getProperties().getProperty("speedScale"));
         return new BackgroundSprite(texture, movementScale);
     }
 
-    public static BackgroundSprite loadBackgroundSprite(String name) throws IOException {
+    public BackgroundSprite loadBackgroundSprite(String name) throws IOException {
         String defFile = "gamedefs/sprites/background/" + name + ".def";
 
         Properties props = new Properties();
@@ -30,14 +35,14 @@ public class ContentLoader {
         return  generateBackgroundSprite(defs);
     }
 
-    private static ChassisSprite generatePlayerChassisSprite(DefinitionFile file){
-        Texture texture = new Texture(Gdx.files.internal(file.location + file.properties.getProperty("sprite") + ".png"));
+    private ChassisSprite generatePlayerChassisSprite(DefinitionFile file){
+        Texture texture = manager.get(file.location + file.properties.getProperty("sprite") + ".png");
         float centerX = Float.valueOf(file.getProperties().getProperty("centerX"));
         float centerY = Float.valueOf(file.getProperties().getProperty("centerY"));
         return new ChassisSprite(texture, centerX, centerY);
     }
 
-    public static ChassisSprite loadPlayerChassisSprite(String name) throws IOException {
+    public ChassisSprite loadPlayerChassisSprite(String name) throws IOException {
         String defFile = "gamedefs/sprites/chassis/" + name + ".def";
 
         Properties props = new Properties();
