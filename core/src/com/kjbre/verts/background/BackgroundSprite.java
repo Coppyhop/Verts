@@ -6,11 +6,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
 
+/*
+ *  Background Sprite
+ *  the basic definition for an object you'd see floating down in the background (Stars, asteroids, planets)
+ *  TODO: Refactor to 'Background object'
+ */
 public class BackgroundSprite {
 
-    Texture texture;
-    Sprite sprite;
-    float movementScale = 1;
+    private final Texture texture;
+    final Sprite sprite;
+    private float movementScale;
 
     public BackgroundSprite(Texture texture, float movementScale){
         Random r = new Random();

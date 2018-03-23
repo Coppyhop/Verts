@@ -5,9 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
+/*
+ *  Background Render Handler
+ *  A class that handles rendering and logic for background objects
+ */
 public class BackgroundRenderHandler {
 
-    ArrayList<BackgroundSprite> sprites = new ArrayList<BackgroundSprite>();
+    private final ArrayList<BackgroundSprite> sprites = new ArrayList<BackgroundSprite>();
     public void draw(SpriteBatch batch){
         batch.begin();
         for(int i=0;i<sprites.size();i++){

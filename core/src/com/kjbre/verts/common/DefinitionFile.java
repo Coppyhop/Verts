@@ -1,15 +1,18 @@
 package com.kjbre.verts.common;
 
 import java.util.Properties;
+/*
+ *  Definition File
+ *  This is how we store and get data from a definition file, through a properties file
+ */
+class DefinitionFile {
 
-public class DefinitionFile {
+    public final String location;
+    private final DefinitionType type;
+    private final String name;
+    public final Properties properties;
 
-    public String location;
-    public DefinitionType type;
-    public String name;
-    public Properties properties;
-
-    public DefinitionFile(String location, DefinitionType type, String name, Properties properties) {
+    DefinitionFile(String location, DefinitionType type, String name, Properties properties) {
         this.location = location;
         this.type = type;
         this.name = name;

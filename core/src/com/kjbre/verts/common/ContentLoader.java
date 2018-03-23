@@ -9,11 +9,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ContentLoader {
+/*
+ *  Content Loader
+ *  What this class represents can be confusing.
+ *  It's entirely about loading and generating base copies for every sprite (soon to be object) type
+ *  TODO: Refactor into 'ContentGenerator' or 'ObjectGenerator' as the current name is confusing, it does not deal with loading any game content.
+ */
+class ContentLoader {
 
-    AssetManager manager;
+    private final AssetManager manager;
 
-    public ContentLoader(AssetManager assetManager){
+    ContentLoader(AssetManager assetManager){
         manager = assetManager;
     }
 

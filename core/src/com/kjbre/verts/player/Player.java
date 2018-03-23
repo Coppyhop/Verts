@@ -2,10 +2,15 @@ package com.kjbre.verts.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
+ *  Player class
+ *  This is the class that holds all of the player information, such as the current Chassis, weapons, and such
+ */
 public class Player {
 
-    ChassisSprite currentChassis;
-    float x = 320, y = 240;
+    private ChassisSprite currentChassis;
+    private final float x = 320;
+    private final float y = 240;
     public void setCurrentChassis(ChassisSprite sprite){
         this.currentChassis = sprite;
     }

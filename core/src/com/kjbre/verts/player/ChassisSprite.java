@@ -4,11 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
+ *  Chassis Sprite
+ *  This class holds the info needed for a Chassis Sprite
+ *  TODO: Refactor into 'Chassis.java'
+ */
 public class ChassisSprite {
 
-    Texture texture;
-    float centerX, centerY;
-    Sprite sprite;
+    private final Texture texture;
+    private final float centerX;
+    private final float centerY;
+    private final Sprite sprite;
 
     public ChassisSprite(Texture texture, float centerX, float centerY){
         this.texture = texture;
