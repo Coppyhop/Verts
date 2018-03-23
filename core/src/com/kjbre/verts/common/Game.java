@@ -21,8 +21,8 @@ public class Game {
     private final BackgroundRenderHandler backgroundRenderHandler;
 
 
-    private final Texture loadingScreen;
-    private final Sprite loadingSprite;
+    private final Texture loadingScreen, loadingProgress;
+    private final Sprite loadingSprite, loadingProgressSprite;
 
     private int lastStar = 0;
     private final ContentLibrary library = new ContentLibrary();
@@ -43,6 +43,10 @@ public class Game {
         loadingSprite = new Sprite(loadingScreen);
         loadingSprite.setPosition(0,0);
 
+        loadingProgress = new Texture(Gdx.files.internal("lprog.png"));
+        loadingProgressSprite = new Sprite(loadingProgress);
+        loadingSprite.setPosition(0,0);
+
         //Finally we start loading textures
         library.initialize();
         player = new Player();
@@ -60,11 +64,11 @@ public class Game {
                     //One-time things to be setup before gameplay
                     System.out.println("[INFO] Entering game State");
                     player.setCurrentChassis(library.getRandomChassisSprite());
-                    library.playRandomSong();
                     once = true;
                 }
 
                 //And here's the game loop
+                library.playRandomSong();
                 generateStarfield();
                 backgroundRenderHandler.draw(backgroundSprites);
 
@@ -77,8 +81,13 @@ public class Game {
             }
         } else {
             //Display the loading screen
+
+            float progress = library.getProgress();
+
             backgroundSprites.begin();
             loadingSprite.draw(backgroundSprites);
+            loadingProgressSprite.setBounds(5,5, 630 * progress, 24);
+            loadingProgressSprite.draw(backgroundSprites);
             backgroundSprites.end();
         }
     }

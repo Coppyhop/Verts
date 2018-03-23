@@ -91,6 +91,10 @@ class ContentLibrary {
         return assetManager.update();
     }
 
+    public float getProgress(){
+        return assetManager.getProgress();
+    }
+
     //Asset manager is finished, but the game itself isn't done yet, this is where we load in definitions
     public void finalizedLoading(){
         System.out.println("[INFO] Now Beginning Definition File collection.");
@@ -164,8 +168,19 @@ class ContentLibrary {
         return validChassisSprites.get(random.nextInt(validChassisSprites.size())).getClone();
     }
 
+    private boolean musicPlaying(){
+        for (Music m:validMusicTracks) {
+            if(m.isPlaying()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void playRandomSong(){
-        Music test = validMusicTracks.get(random.nextInt(validMusicTracks.size()));
-        test.play();
+        if(!musicPlaying()) {
+            Music test = validMusicTracks.get(random.nextInt(validMusicTracks.size()));
+            test.play();
+        }
     }
 }
