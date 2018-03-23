@@ -25,11 +25,11 @@ public class ChassisSprite {
     }
 
     public void draw(SpriteBatch batch, float x, float y){
-        sprite.setPosition(x, y);
+        sprite.setPosition(x - centerY, y - centerY);
         sprite.draw(batch);
     }
 
-    public ChassisSprite clone(){
+    public ChassisSprite getClone(){
         return new ChassisSprite(texture, centerX, centerY);
     }
 }

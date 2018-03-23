@@ -10,7 +10,7 @@ public class Player {
 
     private ChassisSprite currentChassis;
     private final float x = 320;
-    private final float y = 240;
+    private final float y = 180;
     public void setCurrentChassis(ChassisSprite sprite){
         this.currentChassis = sprite;
     }

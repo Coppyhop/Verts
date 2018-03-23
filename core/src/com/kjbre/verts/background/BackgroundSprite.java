@@ -17,11 +17,11 @@ public class BackgroundSprite {
     final Sprite sprite;
     private float movementScale;
 
-    public BackgroundSprite(Texture texture, float movementScale){
+    public BackgroundSprite(Texture texture, float movementScale, float randomVariation){
         Random r = new Random();
         this.texture = texture;
         this.sprite = new Sprite(texture);
-        this.movementScale = movementScale;
+        this.movementScale = movementScale + randomVariation;
         sprite.setPosition(r.nextInt(640),500);
     }
 
@@ -33,7 +33,8 @@ public class BackgroundSprite {
         sprite.setPosition(sprite.getX(), sprite.getY() - (48 * delta * movementScale));
     }
 
-    public BackgroundSprite clone(){
-        return new BackgroundSprite(this.texture, movementScale);
+    public BackgroundSprite getClone(){
+        Random r = new Random();
+        return new BackgroundSprite(this.texture, movementScale, (r.nextFloat() * 0.1f) - 0.05f);
     }
 }

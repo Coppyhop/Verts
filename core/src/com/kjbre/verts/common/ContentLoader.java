@@ -27,7 +27,7 @@ class ContentLoader {
 
         Texture texture = manager.get(file.location + file.properties.getProperty("sprite") + ".png");
         float movementScale = Float.valueOf(file.getProperties().getProperty("speedScale"));
-        return new BackgroundSprite(texture, movementScale);
+        return new BackgroundSprite(texture, movementScale,0);
     }
 
     public BackgroundSprite loadBackgroundSprite(String name) throws IOException {

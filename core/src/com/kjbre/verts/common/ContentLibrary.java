@@ -94,6 +94,7 @@ class ContentLibrary {
         File[] listOfFiles = folder.listFiles();
 
         assert listOfFiles != null;
+
         if(listOfFiles.length == 0){
             System.out.println("[INFO] Resource folder '" + folder.getPath() + "' is empty. ");
         } else {
@@ -112,10 +113,10 @@ class ContentLibrary {
     //These two methods are basic methods to get content out of the library
     //TODO: Random rarity-based, and name searches
     public BackgroundSprite getRandomBackgroundSprite(){
-        return validBackgroundSprites.get(random.nextInt(validBackgroundSprites.size())).clone();
+        return validBackgroundSprites.get(random.nextInt(validBackgroundSprites.size())).getClone();
     }
 
     public ChassisSprite getRandomChassisSprite(){
-        return validChassisSprites.get(random.nextInt(validChassisSprites.size())).clone();
+        return validChassisSprites.get(random.nextInt(validChassisSprites.size())).getClone();
     }
 }
