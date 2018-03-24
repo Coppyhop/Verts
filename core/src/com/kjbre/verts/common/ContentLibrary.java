@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.kjbre.verts.background.BackgroundSprite;
 import com.kjbre.verts.player.ChassisSprite;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,8 @@ class ContentLibrary {
         loadTextureFolder("sprites");
         System.out.println("[INFO] Now on: Music.");
         loadMusicFolder("music");
+        System.out.println("[INFO] Now on: Sounds.");
+        loadSoundFolder("sound");
         System.out.println("[INFO] Finished asset collection.");
 
 
@@ -86,6 +89,7 @@ class ContentLibrary {
             }
 
     }
+
     //Get the asset manager's progress on loading
     public boolean getLoaded(){
         return assetManager.update();
@@ -130,6 +134,29 @@ class ContentLibrary {
                 } else {
                     System.out.println("[INFO] Found a resource folder at: " + listOfFile.getPath());
                     loadTextureFolder(listOfFile.getPath());
+                }
+            }
+        }
+    }
+
+    private void loadSoundFolder(String folderName){
+        File folder = new File(folderName);
+
+
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+
+        if(listOfFiles.length == 0){
+            System.out.println("[INFO] Resource folder '" + folder.getPath() + "' is empty. ");
+        } else {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile()) {
+                    System.out.println("[INFO] Loading sound '" + listOfFile.getName() + "' from '" + listOfFile.getPath() + "'");
+                    assetManager.load(listOfFile.getPath(), Sound.class);
+                } else {
+                    System.out.println("[INFO] Found a resource folder at: " + listOfFile.getPath());
+                    loadSoundFolder(listOfFile.getPath());
                 }
             }
         }
@@ -182,5 +209,13 @@ class ContentLibrary {
             Music test = validMusicTracks.get(random.nextInt(validMusicTracks.size()));
             test.play();
         }
+    }
+
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public Sound getSoundByName(String name){
+        return assetManager.get(name, Sound.class);
     }
 }

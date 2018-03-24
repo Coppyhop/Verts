@@ -17,12 +17,14 @@ public class Game {
     private final SpriteBatch backgroundSprites;
     private final SpriteBatch projectileSprites;
     private final SpriteBatch entitySprites;
+    private final SpriteBatch hudSprites;
     private final Player player;
     private final BackgroundRenderHandler backgroundRenderHandler;
 
 
     private final Texture loadingScreen, loadingProgress;
     private final Sprite loadingSprite, loadingProgressSprite;
+    private Sprite jumpSprite, jumpBarSprite, jumpBarSprite2;
 
     private int lastStar = 0;
     private final ContentLibrary library = new ContentLibrary();
@@ -34,6 +36,7 @@ public class Game {
         System.out.println("[INFO] Verts Engine Starting.");
         backgroundSprites = new SpriteBatch();
         projectileSprites = new SpriteBatch();
+        hudSprites = new SpriteBatch();
         entitySprites = new SpriteBatch();
         backgroundRenderHandler = new BackgroundRenderHandler();
 
@@ -62,19 +65,48 @@ public class Game {
                 //Definition Files loaded in
                 if(!once){
                     //One-time things to be setup before gameplay
+                    Texture warpBar = library.getAssetManager().get("sprites/hud/warps.png");
+                    Texture warpBarPiece = library.getAssetManager().get("sprites/hud/warpsPiece.png");
+
+                    jumpSprite = new Sprite(warpBar);
+                    jumpBarSprite = new Sprite(warpBarPiece);
+                    jumpBarSprite2 = new Sprite(warpBarPiece);
+
+                    jumpSprite.setPosition(0, 336);
                     System.out.println("[INFO] Entering game State");
                     player.setCurrentChassis(library.getRandomChassisSprite());
+                    player.setWarpSound(library.getSoundByName("sound/common/warp.wav"));
                     once = true;
                 }
 
                 //And here's the game loop
                 library.playRandomSong();
+                player.logic();
                 generateStarfield();
                 backgroundRenderHandler.draw(backgroundSprites);
 
                 entitySprites.begin();
                 player.draw(entitySprites);
                 entitySprites.end();
+
+                hudSprites.begin();
+                jumpSprite.draw(hudSprites);
+
+                if(player.getJumps() == 1){
+                    jumpBarSprite.setBounds(3,337,32,22);
+                    jumpBarSprite.draw(hudSprites);
+                    jumpBarSprite2.setBounds(37,337,32*player.getNextJump(), 22);
+                    jumpBarSprite2.draw(hudSprites);
+                } else if (player.getJumps() == 2){
+                    jumpBarSprite.setBounds(3,337,32,22);
+                    jumpBarSprite.draw(hudSprites);
+                    jumpBarSprite2.setBounds(37,337,32,22);
+                    jumpBarSprite2.draw(hudSprites);
+                } else {
+                    jumpBarSprite.setBounds(3,337,32*player.getNextJump(), 22);
+                    jumpBarSprite.draw(hudSprites);
+                }
+                hudSprites.end();
             } else {
                 //Load all of the Definition files
                 library.finalizedLoading();
