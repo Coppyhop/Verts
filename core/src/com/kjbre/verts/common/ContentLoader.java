@@ -3,7 +3,7 @@ package com.kjbre.verts.common;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.kjbre.verts.background.BackgroundSprite;
-import com.kjbre.verts.player.ChassisSprite;
+import com.kjbre.verts.player.Chassis;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,14 +41,17 @@ class ContentLoader {
         return  generateBackgroundSprite(defs);
     }
 
-    private ChassisSprite generatePlayerChassisSprite(DefinitionFile file){
+    private Chassis generatePlayerChassisSprite(DefinitionFile file){
         Texture texture = manager.get(file.location + file.properties.getProperty("sprite") + ".png");
-        float centerX = Float.valueOf(file.getProperties().getProperty("centerX"));
-        float centerY = Float.valueOf(file.getProperties().getProperty("centerY"));
-        return new ChassisSprite(texture, centerX, centerY);
+        float moveSpeed = Float.valueOf(file.getProperties().getProperty("speed"));
+        float armorLevel = Float.valueOf(file.getProperties().getProperty("armor"));
+        float shipClass = Float.valueOf(file.getProperties().getProperty("class"));
+        float extraWeapon = Float.valueOf(file.getProperties().getProperty("starSpire"));
+        float regenMulti = Float.valueOf(file.getProperties().getProperty("regenMulti"));
+        return new Chassis(texture, moveSpeed, armorLevel, shipClass, extraWeapon, regenMulti);
     }
 
-    public ChassisSprite loadPlayerChassisSprite(String name) throws IOException {
+    public Chassis loadPlayerChassisSprite(String name) throws IOException {
         String defFile = "gamedefs/sprites/chassis/" + name + ".def";
 
         Properties props = new Properties();

@@ -11,16 +11,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class Player {
 
-    private ChassisSprite currentChassis;
+    private Chassis currentChassis;
     private float x = 320;
     private float y = 180;
-    float moveSpeed = 120;
     int numJumps = 2;
     float regenProgress = 0;
     private Sound warp;
     private float momentumX =0, momentumY=0;
 
-    public void setCurrentChassis(ChassisSprite sprite){
+    public void setCurrentChassis(Chassis sprite){
         this.currentChassis = sprite;
     }
 
@@ -37,7 +36,7 @@ public class Player {
     }
 
     public float getNextJump(){
-        return regenProgress/5f;
+        return regenProgress/(9-(currentChassis.getMoveSpeed()*2));
     }
     public void logic(){
 
@@ -81,8 +80,8 @@ public class Player {
         momentumX*=0.9;
 
         if(numJumps < 2){
-            if(regenProgress < 5) {
-                regenProgress += Gdx.graphics.getDeltaTime();
+            if(regenProgress < (9-(currentChassis.getMoveSpeed()*2))) {
+                regenProgress += currentChassis.getRegenMulti() * Gdx.graphics.getDeltaTime();
             } else {
                 numJumps++;
                 regenProgress = 0;
@@ -99,8 +98,8 @@ public class Player {
                     y += momentumY * 96;
                 }
         } else {
-                x += momentumX * moveSpeed * Gdx.graphics.getDeltaTime();
-                y += momentumY * moveSpeed * Gdx.graphics.getDeltaTime();
+                x += momentumX * 40 * currentChassis.getMoveSpeed() * Gdx.graphics.getDeltaTime();
+                y += momentumY * 40 * currentChassis.getMoveSpeed() * Gdx.graphics.getDeltaTime();
         }
 
 

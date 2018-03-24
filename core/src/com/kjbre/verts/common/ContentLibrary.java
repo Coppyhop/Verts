@@ -1,12 +1,10 @@
 package com.kjbre.verts.common;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.kjbre.verts.background.BackgroundSprite;
-import com.kjbre.verts.player.ChassisSprite;
+import com.kjbre.verts.player.Chassis;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.io.File;
@@ -25,7 +23,7 @@ class ContentLibrary {
     private final AssetManager assetManager;
 
     private final ArrayList<BackgroundSprite> validBackgroundSprites = new ArrayList<BackgroundSprite>();
-    private final ArrayList<ChassisSprite> validChassisSprites = new ArrayList<ChassisSprite>();
+    private final ArrayList<Chassis> validChasses = new ArrayList<Chassis>();
     private final ArrayList<Music> validMusicTracks = new ArrayList<Music>();
     public boolean loaded = false;
 
@@ -68,7 +66,7 @@ class ContentLibrary {
             for (File listOfFile : listOfFiles) {
                 if (listOfFile.isFile()) {
                     System.out.println("[INFO] Loading Defintion file '" + listOfFile.getName() + "' for type 'CHASSIS'");
-                    validChassisSprites.add(contentLoader.loadPlayerChassisSprite(listOfFile.getName().substring(0, listOfFile.getName().lastIndexOf('.'))));
+                    validChasses.add(contentLoader.loadPlayerChassisSprite(listOfFile.getName().substring(0, listOfFile.getName().lastIndexOf('.'))));
                 }
             }
         }
@@ -191,8 +189,8 @@ class ContentLibrary {
         return validBackgroundSprites.get(random.nextInt(validBackgroundSprites.size())).getClone();
     }
 
-    public ChassisSprite getRandomChassisSprite(){
-        return validChassisSprites.get(random.nextInt(validChassisSprites.size())).getClone();
+    public Chassis getRandomChassisSprite(){
+        return validChasses.get(random.nextInt(validChasses.size())).getClone();
     }
 
     private boolean musicPlaying(){

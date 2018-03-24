@@ -35,6 +35,6 @@ public class BackgroundSprite {
 
     public BackgroundSprite getClone(){
         Random r = new Random();
-        return new BackgroundSprite(this.texture, movementScale, (r.nextFloat() * 0.1f) - 0.05f);
+        return new BackgroundSprite(this.texture, movementScale, (r.nextFloat() * 0.2f) - 0.1f);
     }
 }
