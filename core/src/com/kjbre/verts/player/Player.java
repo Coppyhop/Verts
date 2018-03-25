@@ -90,6 +90,7 @@ public class Player {
             regenProgress = 0;
         }
 
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)){
                 if(numJumps >0) {
                     numJumps--;
@@ -100,6 +101,18 @@ public class Player {
         } else {
                 x += momentumX * 40 * currentChassis.getMoveSpeed() * Gdx.graphics.getDeltaTime();
                 y += momentumY * 40 * currentChassis.getMoveSpeed() * Gdx.graphics.getDeltaTime();
+        }
+
+        if(x < 16){
+            x=16;
+        } else if (x > 624){
+            x = 624;
+        }
+
+        if(y < 16){
+            y=16;
+        } else if (y > 344){
+            y = 344;
         }
 
 

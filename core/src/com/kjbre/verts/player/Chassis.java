@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /*
  *  Chassis
- *  This class holds the info needed for a Chassis 
+ *  This class holds the info needed for a Chassis
  */
 public class Chassis {
 

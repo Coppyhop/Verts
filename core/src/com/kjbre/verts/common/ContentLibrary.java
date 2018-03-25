@@ -204,6 +204,7 @@ class ContentLibrary {
 
     public void playRandomSong(){
         if(!musicPlaying()) {
+            System.out.println("[INFO] There are " + validMusicTracks.size() + " valid music tracks to play. Playing a random one...");
             Music test = validMusicTracks.get(random.nextInt(validMusicTracks.size()));
             test.play();
         }

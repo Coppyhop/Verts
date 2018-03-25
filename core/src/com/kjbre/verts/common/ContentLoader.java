@@ -46,8 +46,9 @@ class ContentLoader {
         float moveSpeed = Float.valueOf(file.getProperties().getProperty("speed"));
         float armorLevel = Float.valueOf(file.getProperties().getProperty("armor"));
         float shipClass = Float.valueOf(file.getProperties().getProperty("class"));
-        float extraWeapon = Float.valueOf(file.getProperties().getProperty("starSpire"));
+        float extraWeapon = Float.valueOf(file.getProperties().getProperty("weapons"));
         float regenMulti = Float.valueOf(file.getProperties().getProperty("regenMulti"));
+        float sidekicks = Float.valueOf(file.getProperties().getProperty("sidekicks"));
         return new Chassis(texture, moveSpeed, armorLevel, shipClass, extraWeapon, regenMulti);
     }
 

@@ -1,8 +1,9 @@
 sprite=siliCoMiner
-speed=2.9f
-regenMulti=1.25f
-armor=7f
+speed=3.1f
+regenMulti=1f
+armor=5f
 class=0f
-starSpire=0f
+weapons=0f
+sidekicks=2f
 humanName=SiliCo Basic Mining Vessel
 description=Equipped with SiliCo's older, aging Warp engine, this mining vessel is nothing new. With the usual two sidekicks for mining equipment, the faster than usual engine is just there to make sure ore gets there and back quickly.
