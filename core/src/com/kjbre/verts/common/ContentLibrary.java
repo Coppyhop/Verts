@@ -1,6 +1,7 @@
 package com.kjbre.verts.common;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.kjbre.verts.background.BackgroundSprite;
@@ -29,6 +30,7 @@ class ContentLibrary {
 
     ContentLibrary(){
         assetManager = new AssetManager();
+        assetManager.setLoader(DefinitionFile.class, new DefFileLoader(new InternalFileHandleResolver()));
         contentLoader = new ContentLoader(assetManager);
     }
 
@@ -42,6 +44,8 @@ class ContentLibrary {
         loadMusicFolder("music");
         System.out.println("[INFO] Now on: Sounds.");
         loadSoundFolder("sound");
+        System.out.println("[INFO] Now on: Game Definitions.");
+        loadGameDefsFolder("gamedefs");
         System.out.println("[INFO] Finished asset collection.");
 
 
@@ -56,7 +60,7 @@ class ContentLibrary {
         if(type == DefinitionType.BACKGROUND){
             for (File listOfFile : listOfFiles) {
                 if (listOfFile.isFile()) {
-                    System.out.println("[INFO] Loading Defintion file '" + listOfFile.getName() + "' for type 'BACKGROUND'");
+                    System.out.println("[INFO] Using Defintion file '" + listOfFile.getName() + "' for type 'BACKGROUND'");
                     validBackgroundSprites.add(contentLoader.loadBackgroundSprite(listOfFile.getName().substring(0, listOfFile.getName().lastIndexOf('.'))));
                 }
             }
@@ -65,7 +69,7 @@ class ContentLibrary {
         if(type == DefinitionType.CHASSIS){
             for (File listOfFile : listOfFiles) {
                 if (listOfFile.isFile()) {
-                    System.out.println("[INFO] Loading Defintion file '" + listOfFile.getName() + "' for type 'CHASSIS'");
+                    System.out.println("[INFO] Using Defintion file '" + listOfFile.getName() + "' for type 'CHASSIS'");
                     validChasses.add(contentLoader.loadPlayerChassisSprite(listOfFile.getName().substring(0, listOfFile.getName().lastIndexOf('.'))));
                 }
             }
@@ -74,14 +78,15 @@ class ContentLibrary {
     }
 
     private void loadMusic() throws IOException {
+        System.out.println("[WARNING] This method bypasses the Definition File Type, custom properties do not exist.");
         File folder = new File("music/");
         File[] listOfFiles = folder.listFiles();
 
-        System.out.println("[INFO] Loading Music from '" + folder.getPath() + "'");
+        System.out.println("[INFO] Loading Definitions from '" + folder.getPath() + "'");
 
             for (File listOfFile : listOfFiles) {
                 if (listOfFile.isFile()) {
-                    System.out.println("[INFO] Loading Defintion file '" + listOfFile.getName() + "' for type 'MUSIC'");
+                    System.out.println("[INFO] Using Defintion file '" + listOfFile.getName() + "' for type 'MUSIC'");
                     validMusicTracks.add(assetManager.get("music/" + listOfFile.getName(), Music.class));
                 }
             }
@@ -99,7 +104,7 @@ class ContentLibrary {
 
     //Asset manager is finished, but the game itself isn't done yet, this is where we load in definitions
     public void finalizedLoading(){
-        System.out.println("[INFO] Now Beginning Definition File collection.");
+        System.out.println("[INFO] Now Assembling content library.");
         try {
             loadDefsFromFolder("background", DefinitionType.BACKGROUND);
             loadDefsFromFolder("chassis", DefinitionType.CHASSIS);
@@ -107,7 +112,6 @@ class ContentLibrary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("[INFO] Definition File collection complete.");
 
         System.out.println("[INFO] Verts Content Library Creation complete.");
         loaded = true;
@@ -132,6 +136,29 @@ class ContentLibrary {
                 } else {
                     System.out.println("[INFO] Found a resource folder at: " + listOfFile.getPath());
                     loadTextureFolder(listOfFile.getPath());
+                }
+            }
+        }
+    }
+
+    private void loadGameDefsFolder(String folderName){
+        File folder = new File(folderName);
+
+
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+
+        if(listOfFiles.length == 0){
+            System.out.println("[INFO] Defintion folder '" + folder.getPath() + "' is empty. ");
+        } else {
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile()) {
+                    System.out.println("[INFO] Loading defintion file '" + listOfFile.getName() + "' from '" + listOfFile.getPath() + "'");
+                    assetManager.load(listOfFile.getPath(), DefinitionFile.class);
+                } else {
+                    System.out.println("[INFO] Found a definition folder at: " + listOfFile.getPath());
+                    loadGameDefsFolder(listOfFile.getPath());
                 }
             }
         }

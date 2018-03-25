@@ -27,6 +27,7 @@ public class Chassis {
     }
 
     public void draw(SpriteBatch batch, float x, float y){
+        sprite.setBounds(0,0,32,32);
         sprite.setPosition(x - 16, y - 16);
         sprite.draw(batch);
     }

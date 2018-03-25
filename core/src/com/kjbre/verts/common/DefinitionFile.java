@@ -8,11 +8,11 @@ import java.util.Properties;
 class DefinitionFile {
 
     public final String location;
-    private final DefinitionType type;
+    private final String type;
     private final String name;
     public final Properties properties;
 
-    DefinitionFile(String location, DefinitionType type, String name, Properties properties) {
+    DefinitionFile(String location, String type, String name, Properties properties) {
         this.location = location;
         this.type = type;
         this.name = name;
@@ -23,7 +23,7 @@ class DefinitionFile {
         return location;
     }
 
-    public DefinitionType getType() {
+    public String getType() {
         return type;
     }
 

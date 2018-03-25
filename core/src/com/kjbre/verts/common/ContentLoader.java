@@ -30,13 +30,10 @@ class ContentLoader {
         return new BackgroundSprite(texture, movementScale,0);
     }
 
-    public BackgroundSprite loadBackgroundSprite(String name) throws IOException {
+    public BackgroundSprite loadBackgroundSprite(String name) {
         String defFile = "gamedefs/sprites/background/" + name + ".def";
 
-        Properties props = new Properties();
-        props.load(new FileInputStream(defFile));
-
-        DefinitionFile defs = new DefinitionFile("sprites/background/", DefinitionType.BACKGROUND, name, props);
+        DefinitionFile defs = manager.get(defFile, DefinitionFile.class);
 
         return  generateBackgroundSprite(defs);
     }
@@ -52,13 +49,11 @@ class ContentLoader {
         return new Chassis(texture, moveSpeed, armorLevel, shipClass, extraWeapon, regenMulti);
     }
 
-    public Chassis loadPlayerChassisSprite(String name) throws IOException {
+    public Chassis loadPlayerChassisSprite(String name){
         String defFile = "gamedefs/sprites/chassis/" + name + ".def";
 
-        Properties props = new Properties();
-        props.load(new FileInputStream(defFile));
 
-        DefinitionFile defs = new DefinitionFile("sprites/chassis/", DefinitionType.CHASSIS, name, props);
+        DefinitionFile defs = manager.get(defFile, DefinitionFile.class);
 
         return  generatePlayerChassisSprite(defs);
     }

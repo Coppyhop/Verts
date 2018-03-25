@@ -42,11 +42,11 @@ public class Game {
 
         //This is for the loading screen
         System.out.println("[INFO] Setting up Asset Collection Environment.");
-        loadingScreen = new Texture(Gdx.files.internal("loading.png"));
+        loadingScreen = new Texture(Gdx.files.internal("loading/loading.png"));
         loadingSprite = new Sprite(loadingScreen);
         loadingSprite.setPosition(0,0);
 
-        loadingProgress = new Texture(Gdx.files.internal("lprog.png"));
+        loadingProgress = new Texture(Gdx.files.internal("loading/lprog.png"));
         loadingProgressSprite = new Sprite(loadingProgress);
         loadingSprite.setPosition(0,0);
 

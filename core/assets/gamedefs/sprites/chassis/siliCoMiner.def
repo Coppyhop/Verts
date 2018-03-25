@@ -1,4 +1,5 @@
-sprite=siliCoMiner
+sprite=ship1
+location=sprites/chassis/
 speed=3.1f
 regenMulti=1f
 armor=5f
