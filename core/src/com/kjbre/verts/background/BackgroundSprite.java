@@ -22,6 +22,7 @@ public class BackgroundSprite {
         this.texture = texture;
         this.sprite = new Sprite(texture);
         this.movementScale = movementScale + randomVariation;
+        sprite.setBounds(0,0,16,16);
         sprite.setPosition(r.nextInt(640),500);
     }
 
