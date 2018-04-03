@@ -2,7 +2,7 @@ package com.kjbre.verts.player;
 
 import com.kjbre.verts.projectile.*;
 import com.badlogic.gdx.audio.*;
-import com.badlogic.gdx.graphics;
+import com.badlogic.gdx.Gdx;
 /*
  * Weapon.java
  * This class holds all relevant information to a weapon, such as fire rate and projectile type
