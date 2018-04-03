@@ -2,18 +2,19 @@ package com.kjbre.verts.player;
 
 import com.kjbre.verts.projectile.*;
 import com.badlogic.gdx.audio.*;
+import com.badlogic.gdx.graphics;
 /*
  * Weapon.java
  * This class holds all relevant information to a weapon, such as fire rate and projectile type
  */
 public class Weapon{
 
-  float refireRate = 1.0f;
+  float refireRate = 0.15f;
   Projectile projectileType;
   Sound fireSound;
-
+  float currentRefire = 0f;
   public Weapon(float refireRate, Projectile projectile, Sound fireSound){
-    this.refireRate = refireRate;
+    this.refireRate = 0.15f * refireRate;
     this.projectileType = projectile;
     this.fireSound = fireSound;
   }
@@ -34,4 +35,18 @@ public class Weapon{
     return new Weapon(refireRate, projectileType, fireSound);
   }
 
+  public boolean checkFire(){
+    if(currentRefire == 0){
+      currentRefire = refireRate;
+      return true;
+    }
+
+    currentRefire-= 1f*Gdx.graphics.getDeltaTime();
+
+    if(currentRefire <= 0){
+      currentRefire = 0;
+    }
+
+    return false;
+  }
 }
