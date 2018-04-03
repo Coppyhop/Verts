@@ -21,6 +21,7 @@ public class Player {
     private Sound warp;
     private float momentumX =0, momentumY=0;
     Weapon[] weapons;
+    float defaultTime = 40f, currentTime = 0;
     ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void setCurrentChassis(Chassis sprite){
@@ -136,10 +137,16 @@ public class Player {
     }
 
     public void fire(){
+      currentTime++;
+
+
       for(Weapon w:weapons){
         if(w != null){
-        w.getFireSound().play();
-        projectiles.add(w.getProjectileType().makeClone());
+          if(currentTime > defaultTime){
+            currentTime = 0;
+            w.getFireSound().play();
+            projectiles.add(w.getProjectileType().makeClone());
+          }
       }
       }
     }
