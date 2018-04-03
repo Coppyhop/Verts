@@ -5,13 +5,14 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.kjbre.verts.background.BackgroundSprite;
-import com.kjbre.verts.player.Chassis;
+import com.kjbre.verts.player.*;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
 
 /*
  * Content Library
@@ -25,6 +26,7 @@ class ContentLibrary {
 
     private final ArrayList<BackgroundSprite> validBackgroundSprites = new ArrayList<BackgroundSprite>();
     private final ArrayList<Chassis> validChasses = new ArrayList<Chassis>();
+        private final ArrayList<Weapon> validWeapons = new ArrayList<Weapon>();
     private final ArrayList<Music> validMusicTracks = new ArrayList<Music>();
     public boolean loaded = false;
 
@@ -75,6 +77,15 @@ class ContentLibrary {
             }
         }
 
+        if(type == DefinitionType.WEAPON){
+            for (File listOfFile : listOfFiles) {
+                if (listOfFile.isFile()) {
+                    System.out.println("[INFO] Using Defintion file '" + listOfFile.getName() + "' for type 'WEAPON'");
+                    validWeapons.add(contentLoader.generateWeapon(listOfFile.getName().substring(0, listOfFile.getName().lastIndexOf('.'))));
+                }
+            }
+        }
+
     }
 
     private void loadMusic() throws IOException {
@@ -108,6 +119,7 @@ class ContentLibrary {
         try {
             loadDefsFromFolder("background", DefinitionType.BACKGROUND);
             loadDefsFromFolder("chassis", DefinitionType.CHASSIS);
+            loadDefsFromFolder("weapons", DefinitionType.WEAPON);
             loadMusic();
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,6 +230,10 @@ class ContentLibrary {
 
     public Chassis getRandomChassisSprite(){
         return validChasses.get(random.nextInt(validChasses.size())).getClone();
+    }
+
+    public Weapon getRandomWeapon(){
+        return validWeapons.get(random.nextInt(validWeapons.size())).getClone();
     }
 
     private boolean musicPlaying(){

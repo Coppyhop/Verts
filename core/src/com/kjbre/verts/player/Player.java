@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import java.util.ArrayList;
+import com.kjbre.verts.projectile.*;
 /*
  *  Player class
  *  This is the class that holds all of the player information, such as the current Chassis, weapons, and such
@@ -16,11 +17,22 @@ public class Player {
     private float y = 180;
     int numJumps = 2;
     float regenProgress = 0;
+    int numWeapons = 0;
     private Sound warp;
     private float momentumX =0, momentumY=0;
+    Weapon[] weapons;
+    ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void setCurrentChassis(Chassis sprite){
         this.currentChassis = sprite;
+        this.numWeapons = (int) sprite.getExtraWeapon();
+        weapons = new Weapon[numWeapons];
+    }
+
+    public void setWeaponInSlot(int slot, Weapon weapon){
+      if(slot < weapons.length){
+      weapons[slot] = weapon;
+    }
     }
 
     public void setWarpSound(Sound sound){
@@ -58,6 +70,10 @@ public class Player {
         if(Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             momentumY -= 10;
 
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+          fire();
         }
 
         if(momentumX >=1){
@@ -117,5 +133,14 @@ public class Player {
 
 
 
+    }
+
+    public void fire(){
+      for(Weapon w:weapons){
+        if(w != null){
+        w.getFireSound().play();
+        projectiles.add(w.getProjectileType().makeClone());
+      }
+      }
     }
 }

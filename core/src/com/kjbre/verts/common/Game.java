@@ -76,6 +76,7 @@ public class Game {
                     System.out.println("[INFO] Entering game State");
                     player.setCurrentChassis(library.getRandomChassisSprite());
                     player.setWarpSound(library.getSoundByName("sound/common/warp.wav"));
+                    player.setWeaponInSlot(0, library.getRandomWeapon());
                     once = true;
                 }
 

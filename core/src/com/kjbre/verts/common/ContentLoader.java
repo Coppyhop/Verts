@@ -8,6 +8,9 @@ import com.kjbre.verts.player.Chassis;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import com.kjbre.verts.projectile.*;
+import com.badlogic.gdx.audio.*;
+import com.kjbre.verts.player.*;
 
 /*
  *  Content Loader
@@ -56,5 +59,16 @@ class ContentLoader {
         DefinitionFile defs = manager.get(defFile, DefinitionFile.class);
 
         return  generatePlayerChassisSprite(defs);
+    }
+
+    public Weapon generateWeapon(String name){
+      String defFile = "gamedefs/sprites/weapons/" + name + ".def";
+      DefinitionFile defs = manager.get(defFile, DefinitionFile.class);
+
+      float refireRate = Float.valueOf(defs.getProperties().getProperty("refireRate"));
+      Projectile weaponProjectile = new Projectile();
+      Sound fireSound = manager.get("sound/weapons/" + defs.getProperties().getProperty("fireSound") + ".wav", Sound.class);
+
+      return new Weapon(refireRate, weaponProjectile, fireSound);
     }
 }

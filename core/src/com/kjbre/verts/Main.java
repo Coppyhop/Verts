@@ -12,7 +12,7 @@ import com.kjbre.verts.common.Game;
 public class Main extends ApplicationAdapter {
 
 	private Game game;
-	
+
 	@Override
 	public void create () {
 		game = new Game();
@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
 		game.draw();
 
 	}
-	
+
 	@Override
 	public void dispose () {
 		game.dispose();
