@@ -9,10 +9,11 @@ import com.badlogic.gdx.Gdx;
  */
 public class Weapon{
 
-  float refireRate = 0.15f;
-  Projectile projectileType;
-  Sound fireSound;
-  float currentRefire = 0f;
+  private float refireRate;
+  private Projectile projectileType;
+  private Sound fireSound;
+  private float currentRefire = 0f;
+  private boolean canFire = true;
   public Weapon(float refireRate, Projectile projectile, Sound fireSound){
     this.refireRate = 0.15f * refireRate;
     this.projectileType = projectile;
@@ -23,11 +24,11 @@ public class Weapon{
     return refireRate;
   }
 
-  public Projectile getProjectileType(){
+  Projectile getProjectileType(){
     return projectileType;
   }
 
-  public Sound getFireSound(){
+  Sound getFireSound(){
     return fireSound;
   }
 
@@ -35,18 +36,27 @@ public class Weapon{
     return new Weapon(refireRate, projectileType, fireSound);
   }
 
-  public boolean checkFire(){
+  boolean checkFire(){
     if(currentRefire == 0){
       currentRefire = refireRate;
+        canFire = true;
       return true;
     }
 
-    currentRefire-= 1f*Gdx.graphics.getDeltaTime();
+    if(!canFire) {
+        currentRefire -= 1f * Gdx.graphics.getDeltaTime();
 
-    if(currentRefire <= 0){
-      currentRefire = 0;
+        if (currentRefire <= 0) {
+            currentRefire = 0;
+        }
+
+        return false;
+    } else {
+        return true;
     }
+  }
 
-    return false;
+  void fire(){
+      canFire = false;
   }
 }

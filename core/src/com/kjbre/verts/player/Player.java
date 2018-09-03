@@ -15,13 +15,13 @@ public class Player {
     private Chassis currentChassis;
     private float x = 320;
     private float y = 180;
-    int numJumps = 2;
-    float regenProgress = 0;
-    int numWeapons = 0;
+    private int numJumps = 2;
+    private float regenProgress = 0;
+    private int numWeapons = 0;
     private Sound warp;
     private float momentumX =0, momentumY=0;
-    Weapon[] weapons;
-    ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    private Weapon[] weapons;
+    private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void setCurrentChassis(Chassis sprite){
         this.currentChassis = sprite;
@@ -51,6 +51,9 @@ public class Player {
         return regenProgress/(9-(currentChassis.getMoveSpeed()*2));
     }
     public void logic(){
+        for(Weapon w:weapons){
+            w.checkFire();
+        }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             momentumX += 1;
@@ -135,7 +138,7 @@ public class Player {
 
     }
 
-    public void fire(){
+    private void fire(){
 
 
 
@@ -143,6 +146,7 @@ public class Player {
         if(w != null){
             if(w.checkFire()){
             w.getFireSound().play();
+            w.fire();
             projectiles.add(w.getProjectileType().makeClone());
           }
 
